@@ -1,0 +1,6 @@
+{
+  "name": "DMS Solution",
+  "description": "Production-ready Multi-tenant Business Management SaaS for inventory, sales, purchases, accounting, and reports.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,271 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User account profile and business affiliations",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "photoURL": { "type": "string", "maxLength": 1024 },
+        "activeBusinessId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Business": {
+      "title": "Business Entity",
+      "description": "Multi-tenant business entity details and configurations",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 200 },
+        "ownerId": { "type": "string", "maxLength": 128 },
+        "ownerName": { "type": "string", "maxLength": 128 },
+        "businessType": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "whatsapp": { "type": "string", "maxLength": 30 },
+        "email": { "type": "string", "maxLength": 256 },
+        "address": { "type": "string", "maxLength": 500 },
+        "currency": { "type": "string", "maxLength": 10 },
+        "logoUrl": { "type": "string", "maxLength": 1024 },
+        "openingCashBalance": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "ownerId", "currency"]
+    },
+    "Member": {
+      "title": "Business Member",
+      "description": "Team member and access role inside a business",
+      "type": "object",
+      "properties": {
+        "businessId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "role": { "type": "string", "enum": ["owner", "admin", "manager", "salesperson", "accountant", "inventory_manager"] },
+        "joinedAt": { "type": "string" }
+      },
+      "required": ["businessId", "userId", "role"]
+    },
+    "Product": {
+      "title": "Inventory Product",
+      "description": "Product catalog item with SKU, stock, and pricing",
+      "type": "object",
+      "properties": {
+        "businessId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 200 },
+        "sku": { "type": "string", "maxLength": 100 },
+        "barcode": { "type": "string", "maxLength": 100 },
+        "categoryId": { "type": "string", "maxLength": 128 },
+        "categoryName": { "type": "string", "maxLength": 100 },
+        "unit": { "type": "string", "maxLength": 50 },
+        "purchasePrice": { "type": "number" },
+        "sellingPrice": { "type": "number" },
+        "currentStock": { "type": "number" },
+        "openingStock": { "type": "number" },
+        "alertStock": { "type": "number" },
+        "imageUrl": { "type": "string", "maxLength": 1024 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["businessId", "name", "purchasePrice", "sellingPrice"]
+    },
+    "Sale": {
+      "title": "Sales Invoice",
+      "description": "Sales invoice with customer details, items, tax, discount, and payment status",
+      "type": "object",
+      "properties": {
+        "businessId": { "type": "string", "maxLength": 128 },
+        "invoiceNumber": { "type": "string", "maxLength": 100 },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "customerName": { "type": "string", "maxLength": 200 },
+        "customerPhone": { "type": "string", "maxLength": 30 },
+        "subtotal": { "type": "number" },
+        "discount": { "type": "number" },
+        "tax": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "paidAmount": { "type": "number" },
+        "dueAmount": { "type": "number" },
+        "paymentMethod": { "type": "string", "maxLength": 50 },
+        "accountId": { "type": "string", "maxLength": 128 },
+        "status": { "type": "string", "enum": ["paid", "partial", "due", "returned"] },
+        "createdBy": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" },
+        "date": { "type": "string" }
+      },
+      "required": ["businessId", "invoiceNumber", "totalAmount", "paidAmount"]
+    },
+    "Purchase": {
+      "title": "Purchase Invoice",
+      "description": "Purchase order/bill from suppliers",
+      "type": "object",
+      "properties": {
+        "businessId": { "type": "string", "maxLength": 128 },
+        "billNumber": { "type": "string", "maxLength": 100 },
+        "supplierId": { "type": "string", "maxLength": 128 },
+        "supplierName": { "type": "string", "maxLength": 200 },
+        "subtotal": { "type": "number" },
+        "discount": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "paidAmount": { "type": "number" },
+        "dueAmount": { "type": "number" },
+        "paymentMethod": { "type": "string", "maxLength": 50 },
+        "accountId": { "type": "string", "maxLength": 128 },
+        "status": { "type": "string", "enum": ["paid", "partial", "due", "returned"] },
+        "createdBy": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" },
+        "date": { "type": "string" }
+      },
+      "required": ["businessId", "billNumber", "totalAmount", "paidAmount"]
+    },
+    "Customer": {
+      "title": "Customer Profile",
+      "description": "Customer contact and current ledger dues",
+      "type": "object",
+      "properties": {
+        "businessId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 200 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "email": { "type": "string", "maxLength": 256 },
+        "address": { "type": "string", "maxLength": 500 },
+        "openingBalance": { "type": "number" },
+        "currentBalance": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["businessId", "name"]
+    },
+    "Supplier": {
+      "title": "Supplier Profile",
+      "description": "Vendor contact and current payable balance",
+      "type": "object",
+      "properties": {
+        "businessId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 200 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "email": { "type": "string", "maxLength": 256 },
+        "address": { "type": "string", "maxLength": 500 },
+        "openingBalance": { "type": "number" },
+        "currentBalance": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["businessId", "name"]
+    },
+    "Account": {
+      "title": "Financial Account",
+      "description": "Cash, Bank, or Mobile Financial Service account",
+      "type": "object",
+      "properties": {
+        "businessId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 100 },
+        "type": { "type": "string", "enum": ["cash", "bank", "mfs"] },
+        "accountNumber": { "type": "string", "maxLength": 100 },
+        "currentBalance": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["businessId", "name", "type"]
+    },
+    "Expense": {
+      "title": "Expense Entry",
+      "description": "Business expense record with category and account",
+      "type": "object",
+      "properties": {
+        "businessId": { "type": "string", "maxLength": 128 },
+        "category": { "type": "string", "maxLength": 100 },
+        "amount": { "type": "number" },
+        "accountId": { "type": "string", "maxLength": 128 },
+        "note": { "type": "string", "maxLength": 500 },
+        "date": { "type": "string" },
+        "createdBy": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["businessId", "category", "amount", "accountId"]
+    },
+    "Income": {
+      "title": "Income Entry",
+      "description": "Other business income record",
+      "type": "object",
+      "properties": {
+        "businessId": { "type": "string", "maxLength": 128 },
+        "category": { "type": "string", "maxLength": 100 },
+        "amount": { "type": "number" },
+        "accountId": { "type": "string", "maxLength": 128 },
+        "note": { "type": "string", "maxLength": 500 },
+        "date": { "type": "string" },
+        "createdBy": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["businessId", "category", "amount", "accountId"]
+    },
+    "AuditLog": {
+      "title": "Audit Log Entry",
+      "description": "Immutable security and operational audit trail for critical business actions",
+      "type": "object",
+      "properties": {
+        "businessId": { "type": "string", "maxLength": 128 },
+        "action": { "type": "string", "maxLength": 100 },
+        "category": { "type": "string", "maxLength": 50 },
+        "title": { "type": "string", "maxLength": 200 },
+        "details": { "type": "string", "maxLength": 1000 },
+        "performedBy": { "type": "string", "maxLength": 128 },
+        "performedByName": { "type": "string", "maxLength": 128 },
+        "performedByEmail": { "type": "string", "maxLength": 256 },
+        "targetId": { "type": "string", "maxLength": 128 },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["businessId", "action", "category", "title", "performedBy", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Individual user accounts"
+    },
+    "/businesses/{businessId}": {
+      "schema": "Business",
+      "description": "Business tenant profile and configuration"
+    },
+    "/businesses/{businessId}/members/{memberId}": {
+      "schema": "Member",
+      "description": "Business staff members and assigned roles"
+    },
+    "/businesses/{businessId}/products/{productId}": {
+      "schema": "Product",
+      "description": "Business inventory products catalog"
+    },
+    "/businesses/{businessId}/sales/{saleId}": {
+      "schema": "Sale",
+      "description": "Sales invoices and records"
+    },
+    "/businesses/{businessId}/purchases/{purchaseId}": {
+      "schema": "Purchase",
+      "description": "Purchases and supplier bills"
+    },
+    "/businesses/{businessId}/customers/{customerId}": {
+      "schema": "Customer",
+      "description": "Customer profiles and ledgers"
+    },
+    "/businesses/{businessId}/suppliers/{supplierId}": {
+      "schema": "Supplier",
+      "description": "Supplier contacts and accounts payable"
+    },
+    "/businesses/{businessId}/accounts/{accountId}": {
+      "schema": "Account",
+      "description": "Cash, Bank, and MFS accounts"
+    },
+    "/businesses/{businessId}/expenses/{expenseId}": {
+      "schema": "Expense",
+      "description": "Operational expenses"
+    },
+    "/businesses/{businessId}/income/{incomeId}": {
+      "schema": "Income",
+      "description": "Other income entries"
+    },
+    "/businesses/{businessId}/audit_logs/{auditLogId}": {
+      "schema": "AuditLog",
+      "description": "Immutable security and operational audit trail"
+    }
+  }
+}
